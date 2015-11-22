@@ -13,11 +13,11 @@
 # Variables
 # For directories, use no trailing slashes.
 # USER VARIABLES
-VerTag="v-1.2.1"
-RootDir=/jffs
-BinDir="$RootDir/BTRMS-$VerTag"
+VerTag="v-1.2.1"			# Version of the BTRMS tool used
+RootDir=/jffs				# Main working directory default
+BinDir="$RootDir/BTRMS-$VerTag"		# Main Binary Directory
 OutputRoot=$BinDir			# Default. Can be changed at leisure.
-ScriptName="transfersettings.sh"
+ScriptName="transfersettings.sh"	# Executable script name
 
 # System-generated/operating variables
 HostName=`nvram get router_name`
