@@ -13,10 +13,10 @@
 # Variables
 # For directories, use no trailing slashes.
 # USER VARIABLES
-VerTag="v-1.2.1"			# Version of the BTRMS tool used
-RootDir=/jffs				# Main working directory default
+VerTag="v-1.2.1"					# Version of the BTRMS tool used
+RootDir=/jffs						# Main working directory default
 BinDir="$RootDir/BTRMS-$VerTag"		# Main Binary Directory
-OutputRoot=$BinDir			# Default. Can be changed at leisure.
+OutputRoot=$BinDir					# Default. Can be changed at leisure.
 ScriptName="transfersettings.sh"	# Executable script name
 
 # System-generated/operating variables
@@ -45,16 +45,16 @@ fi
 if [[ ! -w "$RootDir" ]] ; then
 	RootDir="/tmp"
 fi
-# Verify the chosen $OutputRoot is writable, if not use /tmp
-if [[ ! -w "$OutputRoot" ]] ; then
-	OutputRoot="/tmp"
-fi
 # Test whether we have the software, if not, install it.
 if [[ ! -x "$BinDir/$ScriptName" ]] ; then
 	/opt/bin/wget --no-check-certificate https://github.com/cbunt1/BTRMS/archive/"$VerTag".tar.gz -O /tmp/BTRMS-"$VerTag".tar.gz
 	tar -C "$RootDir" -xzf /tmp/BTRMS-"$VerTag".tar.gz
 	rm "/tmp/BTRMS-$VerTag.tar.gz"
 	chmod +x "$BinDir/$ScriptName"
+fi
+# Verify the chosen $OutputRoot is writable, if not use /tmp
+if [[ ! -w "$OutputRoot" ]] ; then
+	OutputRoot="/tmp"
 fi
 # Now let's do what we came here to do.
 cd $OutputRoot
