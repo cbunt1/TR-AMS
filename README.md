@@ -1,4 +1,4 @@
-Tomato Router Automated Management System
+Tomato Router Automated Maintenance System
 
 OK, so it's just a catchy acronym, and I'll probably change it.
 
