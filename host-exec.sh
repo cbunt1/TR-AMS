@@ -14,9 +14,9 @@
 
 #VARIABLES
 # User Variables
-RemoteScript="./remote-exec.sh"		# Script to execute on remotes
-RemoteHosts="./remotehosts"		# File listing remote machines to backup
-RemoteUserID="root"			# Usually root, but some change this
+RemoteScript="./remote-exec.sh"     # Script to execute on remotes
+RemoteHosts="./remotehosts"         # File listing remote machines to backup
+RemoteUserID="root"                 # Usually root, but some change this
 # System Generated Variables
 
 echo "Welcome to the BTRMS automated backup tool. This is free software, and comes with"
