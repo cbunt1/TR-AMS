@@ -8,6 +8,3 @@ If you are having issues with an ongoing verification request, check your
 known.hosts file to make sure you're not dealing with duplicate entries, for
 example an entry by ip address and another by hostname. This sounds redundant
 but happens quite often in this environment.
-
-BUG: On the first pass (when installing the base software) the final output ends
-up in /tmp. Why is this? It's not a serious bug, but an irritant.
