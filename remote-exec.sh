@@ -1,6 +1,9 @@
 #!/bin/sh
-# Copyright (c) 2015 Chris A. Bunt
-# All rights reserved
+# Copyright (C) 2015  Chris A. Bunt
+# All rights reserved.
+# This program comes with ABSOLUTELY NO WARRANTY.
+# This is free software, and you are welcome to redistribute it.
+# See the file LICENSE for details.
 
 # BTRMS remote executable. Backs up a router's configuration for offline
 #	storage. Designed to be run remotely, but will run locally just fine.
@@ -10,30 +13,31 @@
 # This script will remove optware, install entware, add diffutils, wget, and
 #	the BTRMS main tool if they don't already exist.
 
-# Variables
 # For directories, use no trailing slashes.
-# USER VARIABLES
+###  USER CONFIGURABLE VARIABLES  ###
 VerTag="v-1.2.1"                    # Version of the BTRMS tool used
 RootDir=/jffs                       # Main working directory default
 BinDir="$RootDir/BTRMS-$VerTag"     # Main Binary Directory
 OutputRoot="$BinDir"                # Default. Can be changed at leisure.
 ScriptName="transfersettings.sh"    # Executable script name
+#####################################
 
 # System-generated/operating variables
 HostName=`nvram get router_name`
+DomainName=`nvram get wan_domain`
 
 # Do we have our core tools? Verify and install if necessary.
 if [[ ! -x "/opt/bin/opkg" ]] ; then
-	# First clean out from Optware/old installs
+	# If no entware, start by clearing out optware, then install entware.
 	for folder in bin etc include lib sbin share tmp usr var
 	do rm -Rf "/opt/$folder"
 	done
-	/usr/sbin/entware-install.sh
+	/usr/sbin/entware-install.sh        # Included in Shibby builds.
 	# Go ahead and update to entware-ng until upgrade is built-into firmware.
 	# Should add a firmware version check to reduce a step.
 	wget -O - http://entware.zyxmon.org/binaries/mipsel/installer/upgrade.sh | sh
 fi
-# Verify presence of a functional wget, if not, install it.
+# Verify presence of a fully functional wget, if not, install it.
 if [[ ! -x "/opt/bin/wget" ]] ; then
 	opkg install wget
 fi
@@ -45,7 +49,7 @@ fi
 if [[ ! -w "$RootDir" ]] ; then
 	RootDir="/tmp"
 fi
-# Test whether we have the software, if not, install it.
+# Test whether we have the BTRMS software, if not, install it.
 if [[ ! -x "$BinDir/$ScriptName" ]] ; then
 	/opt/bin/wget --no-check-certificate https://github.com/cbunt1/BTRMS/archive/"$VerTag".tar.gz -O /tmp/BTRMS-"$VerTag".tar.gz
 	tar -C "$RootDir" -xzf /tmp/BTRMS-"$VerTag".tar.gz
@@ -58,7 +62,9 @@ if [[ ! -w "$OutputRoot" ]] ; then
 fi
 # Now let's do what we came here to do.
 cd $OutputRoot
-$BinDir/$ScriptName export
+$BinDir/$ScriptName export > /dev/null        # Quiet the core script output
 logger "NVRAM Configuration backed up to $OutputRoot/$HostName"
-echo "Your backup file is located in $OutputRoot/$HostName"
+# echo "Your backup file is located in $OutputRoot/$HostName"
+# Looks like we'll use this to build our list of files to copy, and pull
+echo "$HostName.$DomainName:$OutputRoot/$HostName"
 exit

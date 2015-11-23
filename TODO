@@ -1,0 +1,19 @@
+TODO
+
+Overcome Limiatations of Router/Firmware environment and zsh, preferably
+    without adding more entware tools if at all possible.
+    
+1. Fix the the comment-parsing of the remotehosts file. (zsh limitation)
+    Solution: No comments in remotehosts.
+    Alternative: install bash as part of the opkg dependencies (not ideal)
+    Preferred: find/develop a better parsing statement that works in zsh
+    
+2. ssh invocation doesn't work on a router environment at this point. Options:
+    Solution: Install and use entware ssh (easiest, since doesn't require key
+        conversions.
+    Preferred: Update statement or add test to invoke dropbear for silent ssh
+        Prerequisite: Back to confirmed login capability between boxes. Need to
+        document the openssh/dropbear conversion process, espceially since it
+        doesn't appear the native dropbear tool can make the conversion onboard.
+        
+        

@@ -1,32 +1,70 @@
 #!/bin/sh
-# Copyright (c) 2015 Chris A. Bunt
-# All Rights Reserved
+# Copyright (C) 2015  Chris A. Bunt
+# All rights reserved.
+# This program comes with ABSOLUTELY NO WARRANTY.
+# This is free software, and you are welcome to redistribute it.
+# See the file LICENSE for details.
 
-# This is the host-side executable. It will run on the host machine and will connect to
-#	client machines remotely via certificate-based ssh login (no password) and run
-#	the remote script. (Currently called remote-exec.sh, but will be referenced by
-#	variable most likely.)
+# This is the host-side executable. It will run on the host machine and will 
+#   connect to client machines remotely via certificate-based ssh login (no 
+#   password) and run the remote script.
 
-# The plan is to run through a list of hostnames, defined in a separate file, and execute
-#	the backup process. Once that loop is complete, we will again loop and drag the
-#	completed backups to the host side as necessary. We may also have an option to 
-#	push from the client side, but that is undetermined at this point.
+# The script loops through a list of hostnames, defined in the file remotehosts
+#   (Configurable as a variable below) and execute the backup process via the
+#   remote-exec.sh script. It then loops through the remotehosts file and uses
+#   scp to collect the backup files and store them in the $BackupStorageDir.
 
-#VARIABLES
-# User Variables
+###  USER CONFIGURABLE VARIABLES  ###
 RemoteScript="./remote-exec.sh"     # Script to execute on remotes
 RemoteHosts="./remotehosts"         # File listing remote machines to backup
 RemoteUserID="root"                 # Usually root, but some change this
+BackupStorageDir="./RouterBackups"  # Dir where we store the backups
+#####################################
 # System Generated Variables
+TempFile=/tmp/btrmstmp
 
-echo "Welcome to the BTRMS automated backup tool. This is free software, and comes with"
-echo "absolutely no warranty."
-echo "At this point, it hasn't even been written!"
+echo "BTRMS automated backup tool. Copyright (c) 2015 Chris A. Bunt"
+echo "Copyright (C) 2014, 2015  Chris A. Bunt"
+echo "All rights reserved."
+echo "This program comes with ABSOLUTELY NO WARRANTY."
+echo "This is free software, and you are welcome to redistribute it."
+echo "See the file LICENSE for details."
+echo "At this point, most of it hasn't even been written!"
+
+# This section would be a good spot to MOUNT a remote directory for your
+#   BackupStorageDir should you be so inclined. I mount a cifs directory
+#   and symlink it to my homedir.
+
+# Initialize our temp file
+if [[ -a ${TempFile} ]] ; then
+    rm -f ${TempFile} ; else
+    touch ${TempFile}
+fi
 
 for MachineName in `cat $RemoteHosts` ; do 
-# echo "userid="${RemoteUserID}		#DEBUG
-# echo "Hostname: "${MachineName}		#DEBUG
-# echo ${RemoteScript}				#DEBUG
-ssh ${RemoteUserID}@${MachineName} '/bin/sh' < ${RemoteScript}
+    [[ $MachineName = \#* ]] && continue        # This processing doesn't work on zsh.
+        echo -n "Backing up $MachineName.."
+        ssh ${RemoteUserID}@${MachineName} '/bin/sh' < ${RemoteScript} >> ${TempFile}
+        echo ".done!"
 done
 
+# Now to get the backups to thier main storage...
+# Is the target directory writable, if not, create it.
+# TODO: Need to add a secondary check that the dir was created.
+if [[ ! -w "$BackupStorageDir" ]] ; then
+    echo "BackupStorageDir=$BackupStorageDir"
+    mkdir "$BackupStorageDir"
+fi
+
+# Now loop through our output file and put the backups to $BackupStorageDir
+for RemoteFile in `cat ${TempFile}` ; do
+    scp -Cpr ${RemoteUserID}@${RemoteFile} ${BackupStorageDir}
+done
+
+# Clean up after ourselves
+rm -f ${TempFile}
+
+# This would be a good spot to UNMOUNT any remote directories for 
+#   BackupStorageDir you mounted above. This might also be a good place to copy
+#   files on a post-processing basis. Many ways to use this tool to automate
+#   remote backups.
