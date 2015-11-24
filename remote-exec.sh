@@ -64,8 +64,8 @@ fi
 # Now let's do what we came here to do.
 cd $OutputRoot
 ${BinDir}/${ScriptName} export > /dev/null        # Quiet the core script output
+# Make a note in the system log that the backup was successful.
 logger "NVRAM Configuration backed up to $OutputRoot/$HostName"
-# echo "Your backup file is located in $OutputRoot/$HostName"
-# Looks like we'll use this to build our list of files to copy, and pull
+# Feed the scp-formatted filename back to the host.
 echo "$HostName.$DomainName:$OutputRoot/$HostName"
 exit
