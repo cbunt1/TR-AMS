@@ -1,34 +1,48 @@
 Instructions and notes:
 
 PREREQUISITES:
-A Working password-less ssh between your host machine and the routers you wish 
-to back up. The host machine can be any *nix, so you're not limited by the
-dropbear implementtion of ssh (although I should make the thing work with a
-native Tomato base [get it?].) -- FEATURE REQUEST!
 
-Network connectivity between your host and the remote. This should go without
-saying, but might get confusing when dealing with VPN or other semi-private
-environments. 
+1.  A Working password-less ssh between your host machine and the routers you
+wish to back up. The host machine can be any *nix, so you're not limited by
+the dropbear implementtion of ssh. The script detects whether it's running in
+a router and adjusts accordingly.
 
-INSTALL:
+2. Network connectivity between your host and the remote. This should go
+without saying, but might get confusing when dealing with VPN or other
+semi-private environments. 
+
+BASIC INSTALL AND USAGE:
+
 1. Download and unpack the tarball to the directory of your choice.
-2. Edit the "remotehosts" file. Format is simple: hostname as you would pass it ona command line. IP address will also work here. This is simply the input to an "ssh root@host" command.
-3. Edit the remote-exec.sh script to confirm that the user variables work in your
-environment. The setup should work in an unaltered environment, but not all of
-us run "stock" or we probably wouldn't be here, now would we? :)
+
+2. Edit the "remotehosts" file. Format is simple: hostname as you would
+pass it on a command line. IP address will also work here. This is simply
+the input to an "ssh root@host" command.
+
+3. Edit the remote-exec.sh script to confirm that the user variables work
+in your environment. The setup should work in an unaltered environment, but
+not all of us run "stock" or we probably wouldn't be here, now would we? :)
+
 4. Edit the "host-exec.sh" script to confirm that the user variables work in
 your environment. The most common change here would be changing the user name
 in the RemoteUserID variable if you're not using "root".
+
 5. Execute the host-exec.sh script and watch the magic happen!
 
 TROUBLESHOOTING:
+
 If you are having issues with an ongoing verification request, check your 
 known.hosts file to make sure you're not dealing with duplicate entries, for
 example an entry by ip address and another by hostname. This sounds redundant
 but has happened to me a few times with hardware swaps and private vs. public
 addressing on my VPNs.
 
-Be sure you have accessed each remote host at least once from the machine you're 
-using to host the backups or run the host-exec.sh script manually the first time.
-This is to ensure that you don't get hung up on the RSA key verifications. Once
-any key glitches are cleaned up, you should be able to run this unattended.
+Be sure you have accessed each remote host at least once from the machine
+you're using to host the backups or run the host-exec.sh script manually
+the first time. This is to ensure that you don't get hung up on the RSA key
+verifications. Once any key glitches are cleaned up, you should be able to
+run this unattended.
+
+Dropbear (the default ssh/scp implementation on BusyBox) uses a key format
+that is not directly compatible with standard OpenSSH keys. They can be
+converted. 

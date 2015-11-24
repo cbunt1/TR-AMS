@@ -1,4 +1,5 @@
 #!/bin/sh
+# BTRMS remote-exec.sh
 # Copyright (C) 2015  Chris A. Bunt
 # All rights reserved.
 # This program comes with ABSOLUTELY NO WARRANTY.
@@ -6,7 +7,7 @@
 # See the file LICENSE for details.
 
 # BTRMS remote executable. Backs up a router's configuration for offline
-#	storage. Designed to be run remotely, but will run locally just fine.
+#	storage. Designed to be run remotely, but will run locally as well.
 #	Execute this script with a crontab entry or similar for an automated
 #	backup that self-resolves all dependencies.
 
@@ -62,7 +63,7 @@ if [[ ! -w "$OutputRoot" ]] ; then
 fi
 # Now let's do what we came here to do.
 cd $OutputRoot
-$BinDir/$ScriptName export > /dev/null        # Quiet the core script output
+${BinDir}/${ScriptName} export > /dev/null        # Quiet the core script output
 logger "NVRAM Configuration backed up to $OutputRoot/$HostName"
 # echo "Your backup file is located in $OutputRoot/$HostName"
 # Looks like we'll use this to build our list of files to copy, and pull
