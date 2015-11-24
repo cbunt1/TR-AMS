@@ -34,6 +34,7 @@ TROUBLESHOOTING:
 If you are having issues with an ongoing verification request, check your 
 known.hosts file to make sure you're not dealing with duplicate entries, for
 example an entry by ip address and another by hostname. This sounds redundant
+<<<<<<< HEAD
 but has happened to me a few times with hardware swaps and private vs. public
 addressing on my VPNs.
 
@@ -46,3 +47,4 @@ run this unattended.
 Dropbear (the default ssh/scp implementation on BusyBox) uses a key format
 that is not directly compatible with standard OpenSSH keys. They can be
 converted. 
+=======
