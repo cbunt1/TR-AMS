@@ -3,7 +3,7 @@ TODO
 Overcome Limiatations of Router/Firmware environment and ash, preferably
     without adding more entware tools if at all possible.
     
-1. Fix the the comment-parsing of the remotehosts file. (zsh limitation)
+1. Fix the the comment-parsing of the remotehosts file. (ash limitation)
     Solution: No comments in remotehosts.
     Alternative: install bash as part of the opkg dependencies (not ideal)
     Preferred: find/develop a better parsing statement that works in ash
@@ -30,4 +30,12 @@ Overcome Limiatations of Router/Firmware environment and ash, preferably
     it. If this thing is going to be useful to anyone else at all, it needs
     to be documented. Too many "Buntster-specific" options and ideas here to
     expect anyone else to try to sort it out.
+    
+5.  Merge the functionality of these wrapper/control scripts with the BTRMS
+    tool directly. No sense in having two separate distributions, and by merging
+    the two toolsets we might be able to better control some of the unnecessary
+    file transfers on initial setup. Advantages include not wasting storage space
+    on client routers with redundant files that will never be read or used anyway,
+    which also prevents a few unnecessary writes to an already (potentially)
+    delicate filesystem.
         
