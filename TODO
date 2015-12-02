@@ -34,8 +34,14 @@ Overcome Limiatations of Router/Firmware environment and ash, preferably
 5.  Merge the functionality of these wrapper/control scripts with the BTRMS
     tool directly. No sense in having two separate distributions, and by merging
     the two toolsets we might be able to better control some of the unnecessary
-    file transfers on initial setup. Advantages include not wasting storage space
-    on client routers with redundant files that will never be read or used anyway,
-    which also prevents a few unnecessary writes to an already (potentially)
-    delicate filesystem.
+    file transfers on initial setup. Advantages include not wasting storage
+    space on client routers with redundant files that will never be read or
+    used anyway, which also prevents a few unnecessary writes to an already
+    (potentially) delicate filesystem.
+
+6. BUG: Need to add a trap to the remote_exec.sh that verifies that we are
+    running in a router environment. It probably isn't too big a deal to kick
+    it off within a GNU/Linux environment, but it does create some confusing
+    errors.
+
         
