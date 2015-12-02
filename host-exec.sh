@@ -6,12 +6,12 @@
 # This is free software, and you are welcome to redistribute it.
 # See the file LICENSE for details.
 
-# This is the host-side executable. It will run on the host machine and will 
-#   connect to client machines remotely via certificate-based ssh login (no 
-#   password) and run the remote script.
+# This is the host-side executable. It runs on the host machine, and will 
+#   connect to client routers remotely via certificate-based ssh login (no 
+#   password) and runs the remote script. 
 
 # The script loops through a list of hostnames, defined in the file
-#    remotehosts (Configurable as a variable below) and execute the backup
+#   remotehosts (Configurable as a variable below) and execute the backup
 #   process via the remote-exec.sh script. It then loops through the
 #   remotehosts file and uses scp to collect the backup files and store them
 #   in the $BackupStorageDir.
@@ -34,7 +34,8 @@ echo "See the file LICENSE for details."
 
 # This section would be a good spot to MOUNT a remote directory for your
 #   BackupStorageDir should you be so inclined. I mount a cifs directory
-#   and symlink it to my homedir.
+#   and symlink it to my homedir when I run it directly in a router, but
+#   I usually run this from an external GNU/Linux environment.
 
 # Initialize the storage directory for our backups.
 if [[ ! -w "$BackupStorageDir" ]] ; then
@@ -57,6 +58,7 @@ do
 done
 
 # This would be a good spot to UNMOUNT any remote directories for 
-#   BackupStorageDir you mounted above. This might also be a good place to copy
-#   files on a post-processing basis. Many ways to use this tool to automate
-#   remote backups.
+#   BackupStorageDir you mounted above. It also serves as a great 
+#   place to make final file copies to permanent locations, update
+#   log files or any othr post-processing you wish.
+exit 0      # Ensure a clean exit
