@@ -44,4 +44,6 @@ Overcome Limiatations of Router/Firmware environment and ash, preferably
     it off within a GNU/Linux environment, but it does create some confusing
     errors.
 
-        
+7.  FUTURE: Currently, we're only trapping for 'mips' to determine operating
+    environment. Need to update this logic, since our goal is to eventually
+    make this thing work on all Tomato-USB (or at least Tomato Shibby) distros.
