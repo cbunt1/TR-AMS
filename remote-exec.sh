@@ -7,14 +7,15 @@
 # See the file LICENSE for details.
 
 # BTRMS remote executable. Backs up a router's configuration for offline
-#	storage. Designed to be run remotely, but will run locally as well.
-#	Execute this script with a crontab entry or similar for an automated
-#	backup that self-resolves all dependencies.
+#   storage. Designed to be run remotely, but will run locally as well.
+#   Execute this script with a crontab entry or similar for an automated
+#   backup that self-resolves all dependencies.
 
 # This script will remove optware, install entware, add diffutils, wget, and
-#	the BTRMS main tool if they don't already exist.
+#   he BTRMS main tool if they don't already exist.
 
 # For directories, use no trailing slashes.
+
 ###  USER CONFIGURABLE VARIABLES  ###
 VerTag="v-1.2.1"                    # Version of the BTRMS tool used
 RootDir=/jffs                       # Main working directory default
@@ -33,10 +34,12 @@ if [[ ! -x "/opt/bin/opkg" ]] ; then
 	for folder in bin etc include lib sbin share tmp usr var
 	do rm -Rf "/opt/$folder"
 	done
-	/usr/sbin/entware-install.sh        # Included in Shibby builds.
+	# /usr/sbin/entware-install.sh        # Included in Shibby builds.
 	# Go ahead and update to entware-ng until upgrade is built-into firmware.
 	# Should add a firmware version check to reduce a step.
-	wget -O - http://entware.zyxmon.org/binaries/mipsel/installer/upgrade.sh | sh
+	# wget -O - http://entware.zyxmon.org/binaries/mipsel/installer/upgrade.sh | sh
+	# Can I just use the below line as a single-step entware installation?
+	wget -O - http://entware.zyxmon.org/binaries/mipsel/installer/installer.sh | sh
 fi
 # Verify presence of a fully functional wget, if not, install it.
 if [[ ! -x "/opt/bin/wget" ]] ; then
