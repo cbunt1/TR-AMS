@@ -1,0 +1,34 @@
+CHANGELOG
+
+2015-12-01
+
+Changed the entware installation routine to go directly to the entware install
+    tools, allowing for a straight install of the latest entware without the 
+    two-step install/upgrade previously used.
+
+Identified a "miss" (bug) where remote_exec.sh doesn't trap whether we're
+    running in a router or a *nix environment. It probably doesn't hurt anything
+    but the error messages aren't pretty, and since remote_exec.sh is setup to
+    run more-or-less "blind" it should trap and fail outside the router.
+
+2015-11-22
+
+Added logic to determine whether running from a router or some other *nix box,
+    and adjust the ssh/rsh behavior accordingly.
+    
+Removed some loops from host-exec.sh, did away with the need to write/read a 
+    temp file.
+    
+Added a re-check for writabiity in the backup storage directory. It was possible
+    to spec an unwritable directory, and without trapping the error, continue
+    to run the script while failing to save the backups locally. Now it will
+    bail. Probably not ideal, but better than *thinking* you have a backup.
+    
+Updated the parsing of remotehosts file, allowing for the ability to "comment
+    out" an entry, useful to temporarily disable a remote backup, or to use as
+    a placeholder for a future node.
+    
+Minor updates to the syntax of the output of remote-exec.sh, and fixed some 
+    comments in the script.
+    
+###
